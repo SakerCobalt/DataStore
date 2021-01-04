@@ -96,7 +96,7 @@ def saveData(yr,mn,dy,hr,mi):
     Tinside = 0
     Hinside = 0
     conn.commit()
-    print(yr,",",mn,",",dy,",",hr,",",mi,",","Data Saved")
+    print(yr,",",mn,",",dy,",",hr,",",(mi-1),",","Data Saved")
         
 FlowSensor.on_message=on_msgFlowSensor #Attach message to callback
 Server.on_message=on_msgServer
