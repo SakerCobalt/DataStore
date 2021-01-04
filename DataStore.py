@@ -85,7 +85,7 @@ def saveData(yr,mn,dy,hr,mi):
     global houseWh,powerMax,waterVolume,maxFlowRate,pumpWh,Lwater,HVACWh,Toutside,Houtside
     global Tinside,Hinside,radon,PH1,PH2,PH3,PH4,PH5,PH6
     query="""INSERT INTO data VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-    values = [yr,mn,dy,hr,mi,Lwater,maxFlowRate,houseWh,pumpWh,waterVolume,HVACWh,Toutside,Houtside,
+    values = [yr,mn,dy,hr,(mi-1),Lwater,maxFlowRate,houseWh,pumpWh,waterVolume,HVACWh,Toutside,Houtside,
               Tinside,Hinside,radon,powerMax,PH1,PH2,PH3,PH4,PH5,PH6]
     cur.execute(query, values)
     #Reset values to ensure only fresh readings are added to DB next round
