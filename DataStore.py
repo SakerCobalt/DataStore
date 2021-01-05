@@ -55,7 +55,7 @@ def on_msgFlowSensor(client, userdata, message):
     global waterVolume, maxFlowRate, pumpWh
     data = str(message.payload.decode("utf-8"))
     array = data.split(",")
-    waterVolume = int(float(array[1])*100) #Water Volume for 60 sec in [L/100]
+    waterVolume = int(float(array[1])*10) #Water Volume for 60 sec in [L/100]
     maxFlowRate = int(float(array[2])*10) #Flow rate in [L/10min]
     pumpWh=int(float(array[3])*10) #pump power for 60 sec [Wh/10]
     
