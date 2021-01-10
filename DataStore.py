@@ -58,17 +58,19 @@ def on_msgFlowSensor(client, userdata, message):
     waterVolume = int(float(array[1])*10) #Water Volume for 60 sec in [L/100]
     maxFlowRate = int(float(array[2])*10) #Flow rate in [L/10min]
     pumpWh=int(float(array[3])*10) #pump power for 60 sec [Wh/10]
-    
-    print(waterVolume,",",maxFlowRate,",",pumpWh)
+    print("WV ",waterVolume,",","Flow ",maxFlowRate,",","Wp ",pumpWh)
     
 def on_msgServer(client, userdata, message):
     global houseWh, powerMax
     data=str(message.payload.decode("utf-8"))
     array = data.split(",")
-    houseWh = int(float(array[1])*10) #[wh/10]
-    powerMax = int(array[2]) #[W]
+    if len(array)== 2:
+        houseWh = int(float(array[0])*10) #[wh/10]
+        powerMax = int(array[1]) #[W]
+        print("WhH ",houseWh,", ","WH ",powerMax)
+    else:
+        print(len(array), " is not required length of 2.  Message skipped")
     
-    print(round(houseWh,1),", ",powerMax)
 
 def on_msgRadon(client,userdata,message):
     global Tinside,Hinside,radon
@@ -77,8 +79,7 @@ def on_msgRadon(client,userdata,message):
     Tinside = int(float(array[1])*10)
     Hinside = int(float(array[2])*10)
     radon = int(float(array[3])*10)
-    
-    print(Tinside,Hinside,radon)
+    print("Ti ",Tinside,"Hi ",Hinside,"R ",radon)
 
 
 def saveData(yr,mn,dy,hr,mi):
