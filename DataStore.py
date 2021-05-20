@@ -52,13 +52,14 @@ def getCurrentTime():
     return year,month,day,hour,minute
 
 def on_msgFlowSensor(client, userdata, message):
-    global waterVolume, maxFlowRate, pumpWh
+    global waterVolume, maxFlowRate, pumpWh, PH1
     data = str(message.payload.decode("utf-8"))
     array = data.split(",")
     waterVolume = int(float(array[1])*10) #Water Volume for 60 sec in [L/100]
     maxFlowRate = int(float(array[2])*10) #Flow rate in [L/10min]
     pumpWh=int(float(array[3])*10) #pump power for 60 sec [Wh/10]
-    print("WV ",waterVolume,",","Flow ",maxFlowRate,",","Wp ",pumpWh)
+    PH1=int(array[4]) #1 for Arduino connected
+    print("WV ",waterVolume,",","Flow ",maxFlowRate,",","Wp ",pumpWh,",","ArduinoConnected",PH1)
     
 def on_msgServer(client, userdata, message):
     global houseWh, powerMax
@@ -88,6 +89,7 @@ def saveData(yr,mn,dy,hr,mi):
     query="""INSERT INTO data VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
     values = [yr,mn,dy,hr,mi,Lwater,maxFlowRate,houseWh,pumpWh,waterVolume,HVACWh,Toutside,Houtside,
               Tinside,Hinside,radon,powerMax,PH1,PH2,PH3,PH4,PH5,PH6]
+    print(values)
     cur.execute(query, values)
     #Reset values to ensure only fresh readings are added to DB next round
     waterVolume=0
@@ -96,12 +98,19 @@ def saveData(yr,mn,dy,hr,mi):
     radon = 0
     Tinside = 0
     Hinside = 0
+    PH1 = 0
+    PH2 = 0
+    PH3 = 0
+    PH4 = 0
+    PH5 = 0
+    PH6 = 0
     conn.commit()
     print(yr,",",mn,",",dy,",",hr,",",(mi),",","Data Saved")
         
 FlowSensor.on_message=on_msgFlowSensor #Attach message to callback
 Server.on_message=on_msgServer
 Radon.on_message=on_msgRadon
+
 
 yr,mn,dy,hr,mi = getCurrentTime()
 miPast = mi
