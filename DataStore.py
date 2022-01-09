@@ -36,12 +36,12 @@ Houtside=0
 Tinside=0
 Hinside=0
 radon=0
-windSpeed=0 #PH1
+PH1=0
 windDirection=0 #PH2
 cloudCover=0 #PH3
 dewPoint=0 #PH4
 precipIntensity = 0 #PH5=0
-PH6=0
+windSpeed=0 #PH6
 
 def getCurrentTime():
     #timeNow = time.localtime()
@@ -98,9 +98,9 @@ def on_msgWeatherData(client,userdata,message):
 def saveData(yr,mn,dy,hr,mi):
     global houseWh,powerMax,waterVolume,maxFlowRate,pumpWh,Lwater,HVACWh,Toutside,Houtside
     global Tinside,Hinside,radon,windSpeed,windDirection,cloudCover,dewPoint
-    global precipIntensity,PH6
+    global precipIntensity,PH1
     query="""INSERT INTO data VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-    values = [yr,mn,dy,hr,mi,Lwater,maxFlowRate,houseWh,pumpWh,waterVolume,HVACWh,Toutside,Houtside,Tinside,Hinside,radon,powerMax,windSpeed,windDirection,cloudCover,dewPoint,precipIntensity,PH6]
+    values = [yr,mn,dy,hr,mi,Lwater,maxFlowRate,houseWh,pumpWh,waterVolume,HVACWh,Toutside,Houtside,Tinside,Hinside,radon,powerMax,PH1,windDirection,cloudCover,dewPoint,precipIntensity,windSpeed]
     print(values)
     cur.execute(query, values)
     #Reset values to ensure only fresh readings are added to DB next round
